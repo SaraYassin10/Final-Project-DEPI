@@ -1,10 +1,28 @@
+using FinalProject.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
+builder.Services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationContext>()
+    .AddDefaultTokenProviders();  // Adds token providers for account confirmation, password reset, etc.
+
+builder.Services.ConfigureApplicationCookie(a =>
+{
+    a.AccessDeniedPath = "/Home/Error";
+    a.LoginPath = "/Account/Login";
+    a.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    a.SlidingExpiration = true;
+});
+
+
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -18,6 +36,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
