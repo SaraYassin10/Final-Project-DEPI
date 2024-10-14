@@ -157,8 +157,27 @@ namespace FinalProject.Controllers
             var result = await _signInManager.PasswordSignInAsync(existingUser.UserName, user.PasswordHash, false, false);
             if (result.Succeeded)
             {
-                return Redirect("/Home/index");
-            }
+               
+                    // Check the user's roles
+                    var roles = await _userManager.GetRolesAsync(existingUser);
+
+                    // Redirect based on the role
+                    if (roles.Contains("Instructor"))
+                    {
+                        return RedirectToAction("InstructorProfile", "Instructor");
+                    }
+                    else if (roles.Contains("Student"))
+                    {
+                        return RedirectToAction("StudentProfile", "Student");
+                    }
+                    else if (roles.Contains("Admin"))
+                    {
+                        return RedirectToAction("AdminDashboard", "Admin");
+                    }
+                // If no specific role is found, redirect to a general home page
+                return RedirectToAction("Index", "Home");
+                }
+            
 
             // If login fails (incorrect password or other issue)
             ViewBag.status = 1;

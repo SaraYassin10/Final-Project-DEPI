@@ -7,11 +7,12 @@ namespace FinalProject.Models
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("Instructor")]
-        public int InstructorId {  get; set; }
+      
         [ForeignKey("Course")]
         public int CourseId { get; set; }
-        public Instructor Instructor { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string UserId { get; set; }  // Foreign key reference to ApplicationUser
+        public ApplicationUser User { get; set; }
         public Course Course { get; set; }
     }
 }

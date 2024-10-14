@@ -12,7 +12,10 @@ namespace FinalProject.Models
         [ForeignKey("Question")]
         public int QuestionId { get; set; }
         public Question Question { get; set; }
-        public Instructor Instructor { get; set; }
+
+        [ForeignKey("ApplicationUser")]
+        public string UserId { get; set; }  // Reference to the ApplicationUser
+        public ApplicationUser User { get; set; }  // Can be either Instructor or Student
     }
 
 }

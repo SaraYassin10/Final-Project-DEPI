@@ -9,9 +9,10 @@ namespace FinalProject.Models
         public int EnrollmentId { get; set; }
         [ForeignKey("Course")]
         public int CourseId { get; set; }
-        [ForeignKey("Student")]
-        public int StudentId { get; set; }
-        public Student Student { get; set; }
+
+        [ForeignKey("ApplicationUser")]
+        public string UserId { get; set; }  // Foreign key reference to ApplicationUser
+        public ApplicationUser User { get; set; }
         public Course Course { get; set; }
         public DateTime EnrollmentDate { get; set; }
 

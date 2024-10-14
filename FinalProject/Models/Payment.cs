@@ -11,12 +11,14 @@ namespace FinalProject.Models
         public DateTime PaymentDate { get; set; }
         public string PaymentMethod { get; set; } // e.g., Credit Card, PayPal, etc.
         public string Status { get; set; } // e.g., Success, Pending, Failed
-        [ForeignKey("Student")]
-        public int StudentId { get; set; }
+
         [ForeignKey("Order")]
         public int OrderId { get; set; }
-        public Order Order { get; set; } 
-        public Student Student { get; set; } 
+        public Order Order { get; set; }
+
+        [ForeignKey("ApplicationUser")]
+        public string UserId { get; set; }  // Foreign key reference to ApplicationUser
+        public ApplicationUser User { get; set; }
     }
 
 }

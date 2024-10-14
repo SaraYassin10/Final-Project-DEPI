@@ -17,13 +17,13 @@ namespace FinalProject.Models
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
-        public DbSet<Instructor> Instructors { get; set; }
+
         public DbSet<InstructorCourse> InstructorCourses { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<Student> Students { get; set; }
+  
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
