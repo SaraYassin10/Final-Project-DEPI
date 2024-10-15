@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using FinalProject.Services;
+
 
 namespace FinalProject.Controllers
 {
@@ -9,12 +11,12 @@ namespace FinalProject.Controllers
     public class InstructorController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IWebHostEnvironment _environment;
+        private readonly IProfileService _profileService;
 
-        public InstructorController(UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
+        public InstructorController(UserManager<ApplicationUser> userManager, IProfileService profileService)
         {
             _userManager = userManager;
-            _environment = environment;
+            _profileService = profileService;
         }
 
         // GET: InstructorProfile
@@ -28,6 +30,7 @@ namespace FinalProject.Controllers
 
             return View(user);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateProfile([Bind("Description")] ApplicationUser model, IFormFile ProfileImage)
@@ -44,46 +47,18 @@ namespace FinalProject.Controllers
                 user.Description = model.Description;
             }
 
-            // Handle Profile Image Upload only if a file was provided
+            // Handle Profile Image Upload
             if (ProfileImage != null && ProfileImage.Length > 0)
             {
-                // Validate file extension
-                var extension = Path.GetExtension(ProfileImage.FileName).ToLower();
-                if (extension != ".jpg" && extension != ".png")
+                try
                 {
-                    ModelState.AddModelError("ProfileImage", "Image must be in png or jpg format.");
+                    user.Image_URL = await _profileService.UploadProfileImage(ProfileImage, user.Id, user.Image_URL);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    ModelState.AddModelError("ProfileImage", ex.Message);
                     return View("InstructorProfile", user);
                 }
-
-                // Create user-specific directory in wwwroot/images
-                var userDirectory = Path.Combine(_environment.WebRootPath, "images", user.Id);
-                if (!Directory.Exists(userDirectory))
-                {
-                    Directory.CreateDirectory(userDirectory);
-                }
-
-                // Generate unique file name
-                var fileName = Guid.NewGuid().ToString() + extension;
-                var filePath = Path.Combine(userDirectory, fileName);
-
-                // Save the image to the specified path
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await ProfileImage.CopyToAsync(stream);
-                }
-
-                // Optionally delete the old image
-                if (!string.IsNullOrEmpty(user.Image_URL))
-                {
-                    var oldImagePath = Path.Combine(_environment.WebRootPath, user.Image_URL.TrimStart('/'));
-                    if (System.IO.File.Exists(oldImagePath))
-                    {
-                        System.IO.File.Delete(oldImagePath);
-                    }
-                }
-
-                // Update Image_URL in the database
-                user.Image_URL = $"/images/{user.Id}/{fileName}";
             }
 
             // Update the user in the database
@@ -93,18 +68,13 @@ namespace FinalProject.Controllers
                 TempData["SuccessMessage"] = "Profile updated successfully!";
                 return RedirectToAction("InstructorProfile");
             }
-            else
+
+            foreach (var error in result.Errors)
             {
-                // Add errors to ModelState
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                ModelState.AddModelError(string.Empty, error.Description);
             }
 
-            // Return the view with existing user data if ModelState is invalid
             return View("InstructorProfile", user);
         }
-
     }
 }

@@ -1,4 +1,5 @@
 using FinalProject.Models;
+using FinalProject.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,7 @@ builder.Services.ConfigureApplicationCookie(a =>
     a.SlidingExpiration = true;
 });
 
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

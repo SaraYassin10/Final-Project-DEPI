@@ -13,12 +13,20 @@
       "PackagePath": "staticwebassets\\css\\style.min.css"
     },
     {
+      "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\css\\style2.css",
+      "PackagePath": "staticwebassets\\css\\style2.css"
+    },
+    {
       "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\images\\8546eed9-bb9a-4d37-926f-7d7b53962ea1\\890a2349-8caa-4836-b1df-f7bc70f77b0f.jpg",
-      "PackagePath": "staticwebassets\\images\\8546eed9-bb9a-4d37-926f-7d7b53962ea1\\890a2349-8caa-4836-b1df-f7bc70f77b0f.jpg"
+      "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\images\\36ea80a5-29be-4817-9d02-42bc2bdf8271\\d7782671-d86c-48e7-9ae3-ab72038be98f.jpg",
+      "PackagePath": "staticwebassets\\images\\36ea80a5-29be-4817-9d02-42bc2bdf8271\\d7782671-d86c-48e7-9ae3-ab72038be98f.jpg"
+    },
+    {
+      "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\images\\8546eed9-bb9a-4d37-926f-7d7b53962ea1\\1c824022-0c4b-4734-ad98-9ec1ec35bc50.jpg",
+      "PackagePath": "staticwebassets\\images\\8546eed9-bb9a-4d37-926f-7d7b53962ea1\\1c824022-0c4b-4734-ad98-9ec1ec35bc50.jpg"
     },
     {
       "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\img\\about.jpg",
@@ -65,6 +73,14 @@
       "PackagePath": "staticwebassets\\img\\header.jpg"
     },
     {
+      "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\img\\hero-bg.jpg",
+      "PackagePath": "staticwebassets\\img\\hero-bg.jpg"
+    },
+    {
+      "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\img\\login-img.jpg",
+      "PackagePath": "staticwebassets\\img\\login-img.jpg"
+    },
+    {
       "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\img\\overlay-bottom.png",
       "PackagePath": "staticwebassets\\img\\overlay-bottom.png"
     },
@@ -75,6 +91,10 @@
     {
       "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\img\\page-header.jpg",
       "PackagePath": "staticwebassets\\img\\page-header.jpg"
+    },
+    {
+      "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\img\\signup-img.jpg",
+      "PackagePath": "staticwebassets\\img\\signup-img.jpg"
     },
     {
       "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\img\\team-1.jpg",
@@ -103,6 +123,10 @@
     {
       "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\js\\main.js",
       "PackagePath": "staticwebassets\\js\\main.js"
+    },
+    {
+      "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\js\\script.js",
+      "PackagePath": "staticwebassets\\js\\script.js"
     },
     {
       "Id": "C:\\Users\\SARA\\Source\\Repos\\Final-Project-DEPI\\FinalProject\\wwwroot\\lib\\counterup\\counterup.min.js",

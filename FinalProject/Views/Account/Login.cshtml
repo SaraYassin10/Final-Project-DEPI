@@ -19,11 +19,15 @@
 
     <div>
         <label>Password</label>
+        <input type="password" asp-for="PasswordHash" class="form-control" />
+        @Html.ValidationMessageFor(model => model.PasswordHash, "", new { @class = "text-danger" })
     </div>
 
     <button type="submit" class="btn btn-success">Login</button>
+
 </form>
 
+<button class="btn btn-primary" onclick="location.href='@Url.Action("Register", "Account")'">Don't have an account? Register here</button>
 @if (ViewBag.status == 1)
 {
     <div class="alert alert-danger">

@@ -84,7 +84,15 @@ namespace FinalProject.Controllers
             var result = await _userManager.CreateAsync(user, password);
             if (result.Succeeded)
             {
-                return Redirect("/Account/Login");
+                if (!await _roleManager.RoleExistsAsync("Student"))
+                {
+                    await _roleManager.CreateAsync(new IdentityRole("Student"));
+                }
+
+                // Assign the user to the "Student" role
+                await _userManager.AddToRoleAsync(user, "Student");
+
+                 return Redirect("/Account/Login");
             }
 
             // If user creation failed
@@ -168,7 +176,7 @@ namespace FinalProject.Controllers
                     }
                     else if (roles.Contains("Student"))
                     {
-                        return RedirectToAction("StudentProfile", "Student");
+                        return RedirectToAction("Profile", "Student");
                     }
                     else if (roles.Contains("Admin"))
                     {
