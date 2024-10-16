@@ -1,0 +1,128 @@
+﻿@model FinalProject.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - My E-Learning Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Include Bootstrap CSS and Font Awesome -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Existing CSS styles */
+        #imagePreview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .sidebar {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+            color: #007bff !important;
+        }
+
+        .nav-link i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Student"))
+            {
+                <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                    <div class="sidebar-sticky pt-3">
+                        <div class="text-center mb-4">
+                            <img id="imagePreview" src="@Url.Content(Model.Image_URL)" alt="User Image" class="my-2" />
+                            <h2>@Model.UserName</h2>
+                            <p>@Model.Email</p>
+                            <p>@Model.PhoneNumber</p>
+                        </div>
+                        <hr />
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewData["ActivePage"]?.ToString() == "Profile" ? "active" : "")" href="@Url.Action("Profile", "Student")">
+                                    <i class="fas fa-user"></i> Profile
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewData["ActivePage"]?.ToString() == "EditProfile" ? "active" : "")" href="@Url.Action("EditProfile", "Student")">
+                                    <i class="fas fa-edit"></i> Edit Profile
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewData["ActivePage"]?.ToString() == "Courses" ? "active" : "")" href="@Url.Action("Courses", "Student")">
+                                    <i class="fas fa-book"></i> My Courses
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Logout", "Account")">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            }
+            <!-- Main Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <h1 class="mt-4">@ViewData["Title"]</h1>
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success mt-3">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+                <form asp-action="EditProfile" method="post" enctype="multipart/form-data" class="mt-4">
+                    <div class="form-group">
+                        <label for="ProfileImage">Profile Image</label><br />
+                        <img id="imagePreview" src="@Url.Content(Model.Image_URL)" alt="User Image" class="mb-3" /><br />
+                        <input type="file" id="ProfileImage" name="ProfileImage" accept="image/*" onchange="previewImage(event)" class="form-control-file" />
+                    </div>
+                    <div class="form-group">
+                        <label for="UserName">Username</label>
+                        <input type="text" class="form-control" id="UserName" name="UserName" value="@Model.UserName" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="PhoneNumber">Phone Number</label>
+                        <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="@Url.Action("Profile", "Student")" class="btn btn-secondary">Cancel</a>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
