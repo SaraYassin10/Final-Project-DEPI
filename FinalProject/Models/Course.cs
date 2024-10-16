@@ -18,6 +18,7 @@ namespace FinalProject.Models
         public ICollection<Exam> Exams { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }
         public ICollection<InstructorCourse> InstructorCourse { get; set; }
+        public string UserId { get; internal set; }
     }
 
 }
