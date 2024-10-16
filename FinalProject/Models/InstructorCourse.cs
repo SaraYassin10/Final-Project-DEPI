@@ -12,7 +12,7 @@ namespace FinalProject.Models
         public int CourseId { get; set; }
         [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }  // Foreign key reference to ApplicationUser
-        public ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; }  //IdentityUser
         public Course Course { get; set; }
     }
 }

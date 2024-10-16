@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Controllers
 {
@@ -10,14 +11,103 @@ namespace FinalProject.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IWebHostEnvironment _environment;
-
-        public InstructorController(UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
+        private readonly ApplicationContext _context;
+        public InstructorController(UserManager<ApplicationUser> userManager, IWebHostEnvironment environment,ApplicationContext context)
         {
             _userManager = userManager;
             _environment = environment;
+            _context = context;
+
         }
 
-        // GET: InstructorProfile
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var courses = await _context.Courses
+                .Where(c => c.InstructorCourse.Any(ic => ic.UserId == user.Id))
+                .ToListAsync();
+
+            return View(courses);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Course model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (ModelState.IsValid)
+            {
+                var instructorCourse = new InstructorCourse
+                {
+                    UserId = user.Id,
+                    Course = model
+                };
+
+                _context.Courses.Add(model);
+                _context.InstructorCourses.Add(instructorCourse);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View(course);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Course model)
+        {
+            if (id != model.CourseId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Update(model);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View(course);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            if (course != null)
+            {
+                _context.Courses.Remove(course);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
         public async Task<IActionResult> InstructorProfile()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -26,8 +116,33 @@ namespace FinalProject.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            var courses = await _context.Courses
+                .Where(c => c.InstructorCourse.Any(ic => ic.UserId == user.Id))
+                .ToListAsync();
+
+            ViewBag.Courses = courses;
+
             return View(user);
         }
+        //// GET: InstructorProfile
+        //public async Task<IActionResult> InstructorProfile()
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user == null)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
+
+        //    return View(user);
+        //}
+
+
+
+
+
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateProfile([Bind("Description")] ApplicationUser model, IFormFile ProfileImage)

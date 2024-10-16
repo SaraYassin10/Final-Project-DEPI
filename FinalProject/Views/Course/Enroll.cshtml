@@ -1,0 +1,28 @@
+﻿@* @model List<Lesson>
+
+@{
+    ViewData["Title"] = "Enroll in " + Model.;
+}
+
+<h2>@Model.Course.Title</h2>
+<p>@Model.Course.Description</p>
+
+@if (Model.IsEnrolled)
+{
+    <p>You are already enrolled in this course.</p>
+}
+else
+{
+    <form asp-action="EnrollInCourse" method="post">
+        <input type="hidden" name="courseId" value="@Model.Course.Id" />
+        <button type="submit">Enroll</button>
+    </form>
+}
+
+<h3>Lessons</h3>
+<ul>
+    @foreach (var lesson in Model.Course.Lessons)
+    {
+        <li>@lesson.Title</li>
+    }
+</ul> *@

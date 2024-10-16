@@ -1,3 +1,4 @@
+using FinalProject.Controllers;
 using FinalProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
